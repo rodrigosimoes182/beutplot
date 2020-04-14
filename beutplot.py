@@ -32,14 +32,14 @@ for country in list(percapita.columns):
 colors = {'Brazil':'#045275', 'China':'#089099', 'France':'#7CCBA2', 'Germany':'#FCDE9C', 'US':'#DC3977', 'United Kingdom':'#7C1D6F'}
 plt.style.use('fivethirtyeight')
 
-#Section 7 - Criando a visualização
+# Section 7 - Criando a visualização
 plot = covid.plot(figsize = (9,6), color=list(colors.values()), linewidth=3, legend=True)
 plot.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
 plot.grid(color='#d4d4d4')
 plot.set_xlabel('Data')
 plot.set_ylabel('No. de Casos')
 
-#Section 8 - Atribuindo as cores aos paises
+# Section 8 - Atribuindo as cores aos paises
 for country in list(colors.keys()):
     plot.text(x = covid.index[-1], y = covid[country].max(), color = colors[country],s = country, weight = 'bold')
 
