@@ -1,4 +1,5 @@
 # Section 1 - importando bibliotecas
+# https://github.com/rodrigosimoes182/beutplot.git
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
