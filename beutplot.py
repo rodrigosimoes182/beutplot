@@ -6,6 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
 import matplotlib.ticker as ticker
+#importando Bokeh
+from bokeh.plotting import figure, output_file, show
 
 # Section 2 - Carregando os dados CSV e montando um Dataframe
 df = pd.read_csv("https://raw.githubusercontent.com/datasets/covid-19/master/data/countries-aggregated.csv", parse_dates=['Date'])
@@ -27,38 +29,41 @@ populations = {'Brazil':216939396, 'Germany': 83721496 , 'United Kingdom': 67802
 percapita = covid.copy()
 for country in list(percapita.columns):
     percapita[country] = percapita[country]/populations[country]*100000
+    #print(percapita['Brazil'])
+#Criando a lista de paises e arrumando dados para os graficos
+brasil = covid['Brazil']
+alemanha = covid['Germany']
+inglaterra = covid['United Kingdom']
+eua = covid['US']
+franca = covid['France']
+china = covid['China']
+dias = covid.index[1:-1]
+dias.to_numpy(dias)
+#print(countries)
+#print('dias',dias)
+#print('eixo',eixo)
+#Adaptação do código  com Bokeh ----------------------------------------
+# output to static HTML file
+output_file("/Users/rodsim/Documents/beutplot/log_lines.html")
+# create a new plot
+p = figure(
+   tools="pan,box_zoom,reset,save",x_axis_type="datetime", title="Quantidade de casos",
+   x_axis_label='Dias', y_axis_label='Casos'
+)
 
-# Section 6 - Generando cores e estilos do grafico
-colors = {'Brazil':'#045275', 'China':'#089099', 'France':'#7CCBA2', 'Germany':'#FCDE9C', 'US':'#DC3977', 'United Kingdom':'#7C1D6F'}
-plt.style.use('fivethirtyeight')
-
-# Section 7 - Criando a visualização
-plot = covid.plot(figsize = (9,6), color=list(colors.values()), linewidth=3, legend=True)
-plot.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
-plot.grid(color='#d4d4d4')
-plot.set_xlabel('Data')
-plot.set_ylabel('No. de Casos')
-
-# Section 8 - Atribuindo as cores aos paises
-for country in list(colors.keys()):
-    plot.text(x = covid.index[-1], y = covid[country].max(), color = colors[country],s = country, weight = 'bold')
-
-# Section 9 - Adicionando as legendas
-plot.text(x = covid.index[1], y = int(covid.max().max())+95000, s = "COVID-19 Casos por país", fontsize = 14, weight = 'bold', alpha = .75)
-plot.text(x = covid.index[1], y = int(covid.max().max())+15000, s = "Para Brasil, USA, China, Alemanha, França e Reino Unido \nInclui Casos Atuais, Recuperados, e Mortes", fontsize = 10, alpha = .75)
-plot.text(x = percapita.index[1], y = -1000000,s = 'by Rodsim182                 Source: https://github.com/datasets/covid-19/blob/master/data/countries-aggregated.csv', fontsize = 8)  
-
-# Section 10 - Segundo Grafico  
-percapitaplot = percapita.plot(figsize=(9,6), color=list(colors.values()), linewidth=5, legend=True)
-percapitaplot.grid(color='#d4d4d4')
-percapitaplot.set_xlabel('Date')
-percapitaplot.set_ylabel('No. de Casos por 100 mil habitantes')
-for country in list(colors.keys()):
-    percapitaplot.text(x = percapita.index[-1], y = percapita[country].max(), color = colors[country], s = country, weight = 'bold')
-percapitaplot.text(x = percapita.index[1], y = percapita.max().max()+27, s = "Per Capita COVID-19 Casos por país", fontsize = 14, weight = 'bold', alpha = .75)
-percapitaplot.text(x = percapita.index[1], y = percapita.max().max()+12, s = "Para Brasil, USA, China, Alemanha, França e Reino Unido \nInclui Casos Atuais, Recuperados, e Mortes", fontsize = 10, alpha = .75)
-percapitaplot.text(x = percapita.index[1], y = -55,s = 'Rodsim182                     Source: https://github.com/datasets/covid-19/blob/master/data/countries-aggregated.csv', fontsize = 10)
-
-# Section 11 - "Voit la" o resultado!
-plt.show()
-#plt.savefig()
+# add some renderers
+#for country in list(percapita.columns):
+p.line(x = dias, y = brasil, legend_label="Brasil",line_width=6, line_color='blue')
+p.circle(x = dias, y = brasil, legend_label="Brasil", fill_color="white", size=7, line_color='blue')
+p.line(x = dias, y = alemanha, legend_label="Alemanha", line_width=6, line_color='black')
+p.circle(x = dias, y = alemanha, legend_label="Alemanha", fill_color="white", size=7, line_color='black')
+p.line(x = dias, y = inglaterra, legend_label="Reino Unido",line_width=6, line_color='green')
+p.circle(x = dias, y = inglaterra, legend_label="Reino Unido", fill_color="white", size=7, line_color='green')
+p.line(x = dias, y = eua, legend_label="USA", line_width=6, line_color='grey')
+p.circle(x = dias, y = eua, legend_label="USA", fill_color="white", size=7, line_color='grey')
+p.line(x = dias, y = franca, legend_label="França", line_width=6, line_color='orange')
+p.circle(x = dias, y = franca, legend_label="França", fill_color="white", size=7, line_color='orange')
+p.line(x = dias, y = china, legend_label="China",line_width=6, line_color='red')
+p.circle(x = dias, y = china, legend_label="China", fill_color="white", size=7, line_color='red')
+# show the results
+show(p)
