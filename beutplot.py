@@ -61,4 +61,4 @@ percapitaplot.text(x = percapita.index[1], y = -55,s = 'Rodsim182               
 
 # Section 11 - "Voit la" o resultado!
 plt.show()
-plt.savefig()
+#plt.savefig()
