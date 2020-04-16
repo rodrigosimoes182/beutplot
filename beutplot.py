@@ -39,9 +39,6 @@ franca = covid['France']
 china = covid['China']
 dias = covid.index[1:-1]
 dias.to_numpy(dias)
-#print(countries)
-#print('dias',dias)
-#print('eixo',eixo)
 #Adaptação do código  com Bokeh ----------------------------------------
 # output to static HTML file
 output_file("/Users/rodsim/Documents/beutplot/log_lines.html")
