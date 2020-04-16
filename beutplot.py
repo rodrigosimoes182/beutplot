@@ -44,7 +44,7 @@ dias.to_numpy(dias)
 output_file("/Users/rodsim/Documents/beutplot/log_lines.html")
 # create a new plot
 p = figure(
-   tools="pan,box_zoom,reset,save",x_axis_type="datetime", title="Quantidade de casos",
+   tools="pan,box_zoom,reset,save",y_range=[0, 10**6],x_axis_type="datetime", title="Quantidade de casos",
    x_axis_label='Dias', y_axis_label='Casos'
 )
 
