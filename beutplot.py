@@ -31,36 +31,21 @@ for country in list(percapita.columns):
     percapita[country] = percapita[country]/populations[country]*100000
     #print(percapita['Brazil'])
 #Criando a lista de paises e arrumando dados para os graficos
-brasil = covid['Brazil']
-alemanha = covid['Germany']
-inglaterra = covid['United Kingdom']
-eua = covid['US']
-franca = covid['France']
-china = covid['China']
-dias = covid.index[1:-1]
-dias.to_numpy(dias)
+colors = {'Brazil':'#045275', 'China':'#089099', 'France':'#7CCBA2', 'Germany':'#FCDE9C', 'US':'#DC3977', 'United Kingdom':'#7C1D6F'}
+
+dias = covid.index
 #Adaptação do código  com Bokeh ----------------------------------------
 # output to static HTML file
 output_file("/Users/rodsim/Documents/beutplot/log_lines.html")
 # create a new plot
 p = figure(
    tools="pan,box_zoom,reset,save",y_range=[0, 10**6],x_axis_type="datetime", title="Quantidade de casos",
-   x_axis_label='Dias', y_axis_label='Casos'
+  x_axis_label='Dias', y_axis_label='Casos'
 )
 
 # add some renderers
-#for country in list(percapita.columns):
-p.line(x = dias, y = brasil, legend_label="Brasil",line_width=6, line_color='blue')
-p.circle(x = dias, y = brasil, legend_label="Brasil", fill_color="white", size=7, line_color='blue')
-p.line(x = dias, y = alemanha, legend_label="Alemanha", line_width=6, line_color='black')
-p.circle(x = dias, y = alemanha, legend_label="Alemanha", fill_color="white", size=7, line_color='black')
-p.line(x = dias, y = inglaterra, legend_label="Reino Unido",line_width=6, line_color='green')
-p.circle(x = dias, y = inglaterra, legend_label="Reino Unido", fill_color="white", size=7, line_color='green')
-p.line(x = dias, y = eua, legend_label="USA", line_width=6, line_color='grey')
-p.circle(x = dias, y = eua, legend_label="USA", fill_color="white", size=7, line_color='grey')
-p.line(x = dias, y = franca, legend_label="França", line_width=6, line_color='orange')
-p.circle(x = dias, y = franca, legend_label="França", fill_color="white", size=7, line_color='orange')
-p.line(x = dias, y = china, legend_label="China",line_width=6, line_color='red')
-p.circle(x = dias, y = china, legend_label="China", fill_color="white", size=7, line_color='red')
-# show the results
+for pais in countries:
+    p.line(x = dias, y = covid[pais], legend_label= pais,line_width=6, line_color=colors[pais])
+    p.circle(x = dias, y = covid[pais], legend_label= pais, fill_color="white", size=7, line_color=colors[pais])
+
 show(p)
